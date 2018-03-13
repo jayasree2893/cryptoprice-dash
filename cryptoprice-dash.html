@@ -5,11 +5,17 @@
 <dom-module id="cryptoprice-dash">
 <template>
     
-
+    <style include="paper-material-styles">
+        :host{
+          display:block;
+  
+        }
+        
+      </style>
     <iron-ajax id="coinbase" handle-as="json" on-response="_handleResponse" ></iron-ajax>
     
  
-    <p>[[currencies.0.code]] - [[currencies.0.name]]-$[[currencies.0.price]] </p>
+    <p >[[currencies.0.code]] - [[currencies.0.name]]-$[[currencies.0.price]] </p>
     <p>[[currencies.1.code]] - [[currencies.1.name]]-$[[currencies.1.price]] </p>
     <p>[[currencies.0.code]] - [[currencies.0.name]]-$[[currencies.0.price]] </p>
 
@@ -46,7 +52,7 @@ class CryptoPriceDash extends Polymer.Element{
         super.ready();
         Polymer.RenderStatus.afterNextRender(this,function(){
             this._getCurrencyData();
-            this._getCurrencyHistoricData(this.currencies[0].code);
+          
         })
     }
 
@@ -59,14 +65,10 @@ class CryptoPriceDash extends Polymer.Element{
             ajax.generateRequest();
         },this);
     }
-    _getCurrencyHistoricData(currency){
-        var ajax=this.$.coinbase;
-        ajax.url='https://api.coinbase.com/v2/prices'+currency+'-USD/historic?period=week';
-        ajax.generateRequest();
-    }
+    
     _handleResponse(response){
-     this._computeCurrencyPrice(response.detail);
-     console.log(response);
+    this._computeCurrencyPrice(response.detail);
+    // console.log(response);
     }
     _computeCurrencyPrice(data){
 
